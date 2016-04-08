@@ -1,0 +1,498 @@
+#include<iostream>
+#include <string>
+#include <string.h>
+#include <sstream>
+#include <stdlib.h>
+#include <time.h>
+#include<pthread.h>
+
+ using namespace std;
+// clase
+class maquina{
+	public:
+		string ganarpartida(int marca,int Tablero[3][3][3]);
+		string convertir(int x);
+		
+};
+string maquina::ganarpartida(int marca,int Tablero[3][3][3]){
+      int co=0;
+      string dato="";
+      bool aux=true;
+      for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+               dato="";
+             for(int k=0;k<3;k++){
+                 if(Tablero[i][k][j]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[i][k][j]==0) dato=(convertir(i)+convertir(k)+convertir(j));
+                   }
+                  }
+                 if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+               }
+           if(aux!=true) break;
+       }
+        //buscar lineas por columnas de atras
+     if(aux==true){
+          for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+               dato="";
+             for(int k=0;k<3;k++){
+                 if(Tablero[i][j][k]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[i][j][k]==0) dato=(convertir(i)+convertir(j)+convertir(k));
+                   }
+                  }
+                if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+               }
+           if(aux!=true) break;
+       }
+     }
+       if(aux==true){
+          for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+               dato="";
+             for(int k=0;k<3;k++){
+                 if(Tablero[k][j][i]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[k][j][i]==0) dato=(convertir(k)+convertir(j)+convertir(i));
+                   }
+                  }
+               if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+              }
+           if(aux!=true) break;
+       }
+     }
+        if(aux==true){
+             for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+            for(int j=0;j<3;j++){
+              if(Tablero[j][j][i]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[j][j][i]==0) dato=(convertir(j)+convertir(j)+convertir(i));
+                   }
+               }
+                if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }
+                if(aux!=true) break;
+         }
+           
+       }
+     
+        if(aux==true){
+          for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+           for(int j=3-1;j>=0;j--){
+              if(Tablero[j][2-j][i]==marca){
+                     co++;
+                   }else{
+                     int v=2-j;
+                     if(Tablero[j][2-j][i]==0) dato=(convertir(j)+convertir(v)+convertir(i));
+                    }
+                    }
+                 if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+               if(aux!=true) break;
+       }
+     }
+          if(aux==true){
+             for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+            for(int j=0;j<3;j++){
+              if(Tablero[j][i][j]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[j][i][j]==0) dato=(convertir(j)+convertir(i)+convertir(j));
+                   }
+               }
+                if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }
+                if(aux!=true) break;
+         }
+           
+       }
+          if(aux==true){
+          for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+           for(int j=3-1;j>=0;j--){
+              if(Tablero[2-j][i][j]==marca){
+                     co++;
+                   }else{
+                     int v=2-j;
+                     if(Tablero[2-j][i][j]==0) dato=(convertir(v)+convertir(i)+convertir(j));
+                    }
+                    }
+                 if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+               if(aux!=true) break;
+       }
+     }
+          if(aux==true){
+             for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+            for(int j=0;j<3;j++){
+              if(Tablero[i][j][j]==marca){
+                     co++;
+                   }else{
+                     if(Tablero[i][j][j]==0) dato=(convertir(i)+convertir(j)+convertir(j));
+                   }
+               }
+                if(co==2&&dato.compare("")!=0){
+                    aux=false;
+                    break;
+                  }
+                if(aux!=true) break;
+         }
+           
+       }
+         
+          if(aux==true){
+          for(int i=0;i<3;i++){ 
+              co=0;
+              dato="";
+           for(int j=3-1;j>=0;j--){
+              if(Tablero[i][j][2-j]==marca){
+                     co++;
+                   }else{
+                     int v=2-j;
+                     if(Tablero[i][j][v]==0) dato=convertir(i)+convertir(j)+convertir(v);
+                    }
+                    }
+                 if(co==2&&dato.compare("")!=0) {
+                    aux=false;
+                    break;
+                  }else{dato="";}
+               if(aux!=true) break;
+       }
+     }
+      
+          return dato;
+  }
+  
+string maquina::convertir(int x){
+	string Result;          
+    ostringstream convert;   
+    convert <<x; 
+    Result=convert.str();
+	return Result;
+}
+
+// clase analizador
+ class analizador{
+ 	public:
+    void modo_usuario();
+    bool modo_usuario(int x,int y);
+    bool declarar_empate();
+    void modo_maquina();
+    analizador();
+ 	void mostrar_tablero();
+ 	bool ganador(int marca);
+ 	bool ganar_diagonal_deentrada(int marca);
+ 	private:
+	  int arr[3][3][3];
+	  int jugador;
+ };
+ //constructor 
+analizador::analizador(){
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			for(int k=0;k<3;k++){
+				this->arr[i][k][j]=0;
+			}
+		}
+	}
+	jugador=2;
+}
+
+ void analizador::mostrar_tablero(){
+ for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			for(int k=0;k<3;k++){
+			cout<<arr[i][k][j]<<"   "; 
+			}
+			cout<<"\n";
+		}
+			cout<<"\n";
+	}
+ }
+
+void analizador::modo_usuario(){
+	int valor=0;
+	do{	
+	if(jugador==2)jugador=1;
+	else jugador=2;
+	cout<<"ingrese un posicion 0-26 turno jugador "<<jugador<<"\n";
+	cin>>valor;
+	if(modo_usuario(valor,jugador)){
+	mostrar_tablero();
+	if(declarar_empate()==false){
+		cout<<"enmpate de amos jugadores"<<"\n";
+		break;
+	}
+	if(ganador(jugador)||ganar_diagonal_deentrada(jugador)){
+			cout<<"gana jugador "<<jugador<<"\n";
+		break;
+	}
+    }else{ 
+	cout<<"posicion o cupada vuelve  acomodar jugador "<<jugador<<"\n";
+    	 if(jugador==1)jugador=2;
+	     else jugador=1;
+	    
+	}
+	}while(true);
+
+}
+
+void analizador::modo_maquina(){
+	int valor=0;
+	int i=0;
+	int k=0;
+	int j=0;
+	std::string aa;
+	std::string bb;
+    std::string cc;
+	maquina ma;
+	do{	
+	cout<<"ingrese un posicion 0-26 "<<"\n";
+	cin>>valor;
+	// primero veromos si hay empate para continuar 
+	if(declarar_empate()==false){
+		cout<<"enmpate de amos"<<"\n";
+		break;
+	}else{
+   if(modo_usuario(valor,1)){
+   if(ganador(1)||ganar_diagonal_deentrada(1)){
+   	    cout<<"gana usuario "<<"\n";
+   	    mostrar_tablero();
+		break;
+	}else{
+		string da=ma.ganarpartida(2,arr);
+		if(da.compare("")!=0){
+	     string a(da,0,1);
+	     string b(da,1,1);
+	     string c(da,2);
+	      aa=a;
+	      bb=b;
+	      cc=c;
+	    std::istringstream (aa) >> i;
+	   	std::istringstream (bb) >> k;
+	    std::istringstream (cc) >> j;
+	    cout<<"gana  "<<i<<"  "<<k<<"  "<<j<<"\n";
+	    arr[i][k][j]=2;
+		}else{
+			 string da=ma.ganarpartida(1,arr);
+			 if(da.compare("")!=0){
+			 //	 cout<<"ataca  "<<da<<"\n";
+			 	   string  a(da,0,1);
+	               string  b(da,1,1);
+	               string  c(da,2);
+	         cout<<"ataca  "<<a<<" "<<b<<" "<<c<<"\n";
+	                 aa=a;
+	                 bb=b;
+	                 cc=c;
+	                 std::istringstream (aa) >> i;
+	   	             std::istringstream (bb) >> k;
+	                 std::istringstream (cc) >> j;
+	                 arr[i][k][j]=2;
+			 }else{
+			 	  while(arr[i][k][j]==1||arr[i][k][j]==2){
+			 	  	 i= 0 + rand() % (3 - 0);
+			 	  	 k= 0 + rand() % (3 - 0);
+			 	  	 j= 0 + rand() % (3 - 0);
+			 	  }
+			 	  arr[i][k][j]=2;
+			 	  cout<<"imprime  "<<i<<"  "<<k<<"  "<<j<<"\n";
+			 }
+			 	
+		   }
+		   if(ganador(2)||ganar_diagonal_deentrada(2)){
+			cout<<"gana maquina "<<"\n";
+			mostrar_tablero();
+	    	break;
+	      }
+	}	
+	mostrar_tablero();
+    }else{ 
+	cout<<"vuelva a colocar pocision ocupada "<<"\n";
+	}
+    }
+	}while(true);
+}
+
+bool analizador::modo_usuario(int valor,int jugador){
+	int cou=0;
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			for(int k=0;k<3;k++){
+			if(valor==cou&&arr[i][k][j]==0) {
+			arr[i][k][j]=jugador;
+			return true;
+			}
+			cou++; 
+			}
+		}
+	}
+	return false;
+}
+
+ bool analizador::declarar_empate(){
+        int co=0;
+        for ( int i=0;i<3;i++){
+           for ( int j=0;j<3;j++)
+                   for (int k=0;k<3;k++)
+               if(arr[i][j][k]==0) co++;
+        }    
+        if(co==0) return false;
+        return true;
+    }
+    
+bool analizador::ganador(int marca){
+       //buscar lineas por columna
+       int co=0;
+         for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+             for(int k=0;k<3;k++)
+                 if(arr[i][k][j]==marca) co++; 
+                if(co==3) {return true;}
+                
+         }
+       }
+        //buscar lineas por columnas de atras
+         for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+               for(int k=0;k<3;k++)
+                  if(arr[i][j][k]==marca) co++; 
+                if(co==3) 
+                    return true;
+         }
+       }
+         //buscar lineas por columnas de adelante
+          for(int i=0;i<3;i++){
+           for(int j=0;j<3;j++){
+               co=0;
+               for(int k=0;k<3;k++)
+                  if(arr[k][j][i]==marca) co++; 
+                if(co==3) 
+                    return true;
+         }
+       }
+         // diagonales 
+          //diagonal en columas hacia a tras y adelante
+          for(int i=0;i<3;i++){
+              co=0;
+              for(int j=0;j<3;j++)
+                if(arr[j][j][i]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+         //diagonal en columas hacia a tras y adelante en diagonal invertida
+          for(int i=0;i<3;i++){
+              co=0;
+              for(int j=3-1;j>=0;j--)
+                if(arr[j][2-j][i]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+          
+          //diagonales en de hacitrias hacia delante
+           for(int i=0;i<3;i++){
+              co=0;
+              for(int j=0;j<3;j++)
+                if(arr[j][i][j]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+            for(int i=0;i<3;i++){
+              co=0;
+              for(int j=3-1;j>=0;j--)
+                if(arr[2-j][i][j]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+           //diagonal en filas
+              for(int i=0;i<3;i++){
+              co=0;
+              for(int j=0;j<3;j++)
+                if(arr[i][j][j]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+             for(int i=0;i<3;i++){
+              co=0;
+              for(int j=3-1;j>=0;j--)
+                if(arr[i][2-j][j]==marca) co++;
+              if(co==3)
+                  return true;
+          }
+          
+         
+     return false;
+}
+
+   bool analizador::ganar_diagonal_deentrada(int marca){
+       if(arr[0][0][0]==marca&&arr[1][1][1]==marca&&arr[2][2][2]==marca)return true;
+       if(arr[0][2][2]==marca&&arr[1][1][1]==marca&&arr[2][0][0]==marca)return true;
+       if(arr[0][0][2]==marca&&arr[1][1][1]==marca&&arr[2][2][0]==marca)return true;
+       if(arr[0][2][0]==marca&&arr[1][1][1]==marca&&arr[2][0][2]==marca)return true;
+       return false;
+   }
+// funcion del hilo
+void* funcion(void* data){
+	 analizador an;
+    an.mostrar_tablero();
+    int valor=0;
+    do{
+    	cout<<"ingrese opcion 1 juego usuario usuario"<<"\n"<<"ingrese opcion 2 juego usuario maquina"<<"\n"<<"ingrese opcion 3 salir"<<"\n";
+     	cin>>valor;
+    	 analizador an;
+    	 switch(valor){
+    	case 1:
+    		an.mostrar_tablero();
+    		an.modo_usuario();
+    		break;
+        case 2:	
+             an.mostrar_tablero();
+             an.modo_maquina();
+		    break;		
+	}
+	}while(valor!=3);
+	return NULL;
+}
+
+int main(){
+    pthread_t hilo;
+	pthread_create(&hilo, NULL, funcion, NULL); 
+	pthread_join(hilo,NULL);
+	system("pause");
+	return 0;
+}
